@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Video Converter" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Video Player Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/playerCard"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.media3.ui.PlayerView
+                        android:id="@+id/playerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/black"
+                        app:use_controller="true" />
+                    <LinearLayout
+                        android:id="@+id/noVideoPlaceholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:background="?attr/colorSurfaceVariant">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/selectVideoButton"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select Video"
+                            app:icon="@drawable/ic_tab_imported" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Choose a video from your library"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Original Metadata Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/metadataCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Source Information"
+                        android:textAppearance="?attr/textAppearanceTitleSmall"
+                        android:textColor="?attr/colorPrimary" />
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:columnCount="2">
+                        <TextView
+                            android:id="@+id/originalCodecText"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            tools:text="Codec: h264" />
+                        <TextView
+                            android:id="@+id/originalResText"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            tools:text="Res: 1920x1080" />
+                        <TextView
+                            android:id="@+id/originalBitrateText"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginTop="8dp"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            tools:text="Bitrate: 5400 kbps" />
+                        <TextView
+                            android:id="@+id/originalFpsText"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginTop="8dp"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            tools:text="FPS: 30" />
+                    </GridLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Settings Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggleGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:checkedButton="@+id/btnSimple"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSimple"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Presets" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAdvanced"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Advanced" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <!-- Quality Presets -->
+                    <LinearLayout
+                        android:id="@+id/simpleSettingsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Target Quality"
+                                android:textAppearance="?attr/textAppearanceLabelLarge" />
+                            <ImageView
+                                android:id="@+id/infoQuality"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginStart="8dp"
+                                android:src="@android:drawable/ic_dialog_info"
+                                app:tint="?attr/colorOutline" />
+                        </LinearLayout>
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/qualityChipGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:singleSelection="true">
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipLow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Low (Fast)" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="Medium" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipHigh"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="High (Quality)" />
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <!-- Advanced Settings -->
+                    <LinearLayout
+                        android:id="@+id/advancedSettingsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/videoCodecInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            app:endIconMode="dropdown_menu"
+                            android:hint="Video Codec">
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/videoCodecDropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center_vertical">
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/hdrSwitch"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="HDR / 10-bit Color" />
+                            <ImageView
+                                android:id="@+id/infoHdr"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginStart="8dp"
+                                android:src="@android:drawable/ic_dialog_info"
+                                app:tint="?attr/colorOutline" />
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/resolutionInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            app:endIconMode="dropdown_menu"
+                            android:hint="Resolution">
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/resolutionDropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/bitrateInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            android:hint="Video Bitrate">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/bitrateEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/softwareSettingsLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/crfInputLayout"
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                app:startIconDrawable="@android:drawable/ic_dialog_info"
+                                android:hint="CRF Value">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/crfEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/presetInputLayout"
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                app:startIconDrawable="@android:drawable/ic_dialog_info"
+                                app:endIconMode="dropdown_menu"
+                                android:hint="Encoder Preset">
+                                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                    android:id="@+id/presetDropdown"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:cursorVisible="false"
+                                    android:inputType="none" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/frameRateInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            app:endIconMode="dropdown_menu"
+                            android:hint="Frame Rate">
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/frameRateDropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/audioCodecInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            app:endIconMode="dropdown_menu"
+                            android:hint="Audio Codec">
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/audioCodecDropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Crop Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/cropSwitch"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Video Cropping" />
+                        <ImageView
+                            android:id="@+id/infoCrop"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginStart="8dp"
+                            android:src="@android:drawable/ic_dialog_info"
+                            app:tint="?attr/colorOutline" />
+                    </LinearLayout>
+                    <GridLayout
+                        android:id="@+id/cropInputsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:columnCount="2"
+                        android:visibility="gone">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/cropWInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginBottom="8dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            android:hint="Width">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/cropWEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/cropHInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginBottom="8dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            android:hint="Height">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/cropHEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/cropXInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginEnd="4dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            android:hint="X Offset">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/cropXEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/cropYInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginStart="4dp"
+                            app:startIconDrawable="@android:drawable/ic_dialog_info"
+                            android:hint="Y Offset">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/cropYEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </GridLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="?attr/colorSurface">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/convertButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:enabled="false"
+                        android:text="Start Conversion"
+                        android:textSize="16sp"
+                        app:cornerRadius="12dp"
+                        app:icon="@android:drawable/ic_media_play" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/conversionProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone"
+                        app:trackCornerRadius="4dp" />
+
+                    <TextView
+                        android:id="@+id/statusTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Select a video to begin"
+                        android:textAlignment="center"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/saveToGalleryButton"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Save to Gallery"
+                        android:visibility="gone"
+                        app:icon="@android:drawable/ic_menu_save" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Technical Logs Toggle -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggleLogsButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="Show Technical Logs"
+                app:icon="@android:drawable/ic_menu_info_details" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/logCard"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#1E1E1E"
+                app:cardCornerRadius="12dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#333333">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/clearLogButton"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="Clear"
+                        android:textColor="#999999"
+                        android:textSize="10sp" />
+                    <ScrollView
+                        android:id="@+id/logScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/logTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:fontFamily="monospace"
+                            android:textColor="#CCCCCC"
+                            android:textSize="10sp" />
+                    </ScrollView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

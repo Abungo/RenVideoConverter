@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/converterFragment"
+        android:icon="@drawable/ic_tab_converter"
+        android:title="Converter" />
+    <item
+        android:id="@+id/importedFragment"
+        android:icon="@drawable/ic_tab_imported"
+        android:title="Imported" />
+    <item
+        android:id="@+id/convertedFragment"
+        android:icon="@drawable/ic_tab_converted"
+        android:title="Converted" />
+</menu>

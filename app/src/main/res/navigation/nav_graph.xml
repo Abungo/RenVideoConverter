@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/converterFragment">
+
+    <fragment
+        android:id="@+id/converterFragment"
+        android:name="com.renskylab.videoconverter.ConverterFragment"
+        android:label="Converter"
+        tools:layout="@layout/fragment_converter" />
+
+    <fragment
+        android:id="@+id/importedFragment"
+        android:name="com.renskylab.videoconverter.ImportedFragment"
+        android:label="Imported"
+        tools:layout="@layout/fragment_imported" />
+
+    <fragment
+        android:id="@+id/convertedFragment"
+        android:name="com.renskylab.videoconverter.ConvertedFragment"
+        android:label="Converted"
+        tools:layout="@layout/fragment_converted" />
+</navigation>

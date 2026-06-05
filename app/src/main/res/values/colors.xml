@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Primary Palette (Slate/Midnight) -->
+    <color name="primary">#1A237E</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#E8EAF6</color>
+    <color name="on_primary_container">#1A237E</color>
+    
+    <!-- Secondary (Action/Blue) -->
+    <color name="secondary">#0288D1</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#E1F5FE</color>
+    <color name="on_secondary_container">#01579B</color>
+    
+    <!-- Neutral -->
+    <color name="background">#F5F5F7</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F0F0F3</color>
+</resources>
